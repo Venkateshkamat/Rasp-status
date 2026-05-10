@@ -4,6 +4,7 @@
   const display = document.getElementById("display");
   const track = document.getElementById("marquee-track");
   const textEl = document.getElementById("marquee-text");
+  const cloneEl = document.getElementById("marquee-text-clone");
   let pollMs = 60 * 60 * 1000;
   let currentState = "loading";
   let animFrame = null;
@@ -12,15 +13,14 @@
 
   let marqueeX = 0;
   let marqueeSpeed = 0;
-  let marqueeDir = -1;
-  let textWidth = 0;
+  let singleWidth = 0;
 
   function sizeText() {
     const vh = window.innerHeight;
     const fontSize = Math.floor(vh * 0.45);
     track.style.fontSize = fontSize + "px";
     track.style.lineHeight = vh + "px";
-    textWidth = track.scrollWidth;
+    singleWidth = textEl.offsetWidth;
   }
 
   function resetMarquee() {
@@ -30,9 +30,9 @@
   }
 
   function tickMarquee() {
-    marqueeX += marqueeDir * marqueeSpeed;
-    if (marqueeX < -textWidth) {
-      marqueeX = window.innerWidth;
+    marqueeX -= marqueeSpeed;
+    if (marqueeX <= -singleWidth) {
+      marqueeX += singleWidth;
     }
     track.style.transform = `translateX(${marqueeX}px)`;
   }
@@ -48,15 +48,14 @@
     display.className = "state-" + state;
     currentState = state;
 
-    if (state === "pass") {
-      textEl.textContent = "ALL GOOD";
-    } else if (state === "fail") {
-      textEl.textContent = "WASTED";
-    } else if (state === "error") {
-      textEl.textContent = message || "SOMETHING BROKE";
-    } else {
-      textEl.textContent = "LOADING...";
-    }
+    let text;
+    if (state === "pass") text = "ALL GOOD";
+    else if (state === "fail") text = "WASTED";
+    else if (state === "error") text = message || "SOMETHING BROKE";
+    else text = "LOADING...";
+
+    textEl.textContent = text;
+    cloneEl.textContent = text;
 
     resetMarquee();
   }
