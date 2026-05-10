@@ -26,7 +26,7 @@
   function resetMarquee() {
     sizeText();
     marqueeX = window.innerWidth;
-    marqueeSpeed = Math.max(1.5, window.innerWidth / 400);
+    marqueeSpeed = Math.max(3, window.innerWidth / 200);
   }
 
   function tickMarquee() {
