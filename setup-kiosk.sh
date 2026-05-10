@@ -24,7 +24,13 @@ fi
 # ── Install dependencies ────────────────────────────────────────
 echo "[1/5] Installing system packages..."
 apt-get update -qq
-apt-get install -y -qq chromium-browser unclutter xdotool
+if apt-cache show chromium-browser &>/dev/null 2>&1; then
+  apt-get install -y -qq chromium-browser unclutter xdotool
+  CHROMIUM_BIN="chromium-browser"
+else
+  apt-get install -y -qq chromium unclutter xdotool
+  CHROMIUM_BIN="chromium"
+fi
 
 echo "[2/5] Installing GitHub CLI..."
 if ! command -v gh &>/dev/null; then
@@ -94,7 +100,7 @@ cat >> "$AUTOSTART_FILE" <<EOF
 @xset -dpms
 @xset s noblank
 @unclutter -idle 0.5 -root
-@chromium-browser --noerrdialogs --disable-infobars --kiosk --disable-restore-session-state --disable-component-update http://localhost:${PORT}
+@${CHROMIUM_BIN} --noerrdialogs --disable-infobars --kiosk --disable-restore-session-state --disable-component-update http://localhost:${PORT}
 EOF
 
 echo ""
