@@ -70,10 +70,25 @@ The setup script will:
 ### Managing the Service
 
 ```bash
-sudo systemctl status rasp-status    # check status
-sudo systemctl restart rasp-status   # restart after config changes
-sudo systemctl stop rasp-status      # stop the server
-journalctl -u rasp-status -f         # tail logs
+sudo systemctl status rasp-status     # check status
+sudo systemctl restart rasp-status    # restart after config changes
+sudo systemctl start rasp-status       # start the server
+sudo systemctl stop rasp-status        # stop until next reboot or manual start
+sudo systemctl disable rasp-status     # do not start on boot (use enable to undo)
+journalctl -u rasp-status -f           # tail logs
+```
+
+Stopping the service does not remove the Chromium autostart entry; the browser may still open in kiosk mode (to an error page if the server is down).
+
+### Exiting fullscreen kiosk (Chromium)
+
+- On the Pi keyboard, try **Alt+F4** to close Chromium.
+- Or switch to a text console: **Ctrl+Alt+F2** (return to the desktop with **Ctrl+Alt+F7** on many setups).
+- From that console or over SSH:
+
+```bash
+pgrep -a chromium              # optional: see exact process name
+sudo pkill -f chromium         # closes Chromium (adjust pattern if pgrep shows a different name)
 ```
 
 ## Configuration
