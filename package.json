@@ -5,12 +5,18 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "node server.js"
+    "dev": "node server.js",
+    "test": "playwright test",
+    "test:text": "playwright test tests/text-scenarios.spec.js",
+    "test:text:slow": "TEXT_SCENARIO_DWELL_MS=10000 playwright test tests/text-scenarios.spec.js --headed"
   },
   "dependencies": {
     "express": "^4.21.0"
   },
   "engines": {
     "node": ">=18.0.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.49.1"
   }
 }
