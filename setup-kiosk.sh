@@ -24,8 +24,7 @@ fi
 # ── Install dependencies ────────────────────────────────────────
 echo "[1/5] Installing system packages..."
 apt-get update -qq
-if apt-cache show chromium-browser &>/dev/null 2>&1; then
-  apt-get install -y -qq chromium-browser unclutter xdotool
+if apt-get install -y -qq chromium-browser unclutter xdotool 2>/dev/null; then
   CHROMIUM_BIN="chromium-browser"
 else
   apt-get install -y -qq chromium unclutter xdotool
