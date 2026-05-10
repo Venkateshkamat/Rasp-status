@@ -1,0 +1,73 @@
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #000;
+  cursor: none;
+  user-select: none;
+}
+
+#display {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+#marquee-track {
+  position: absolute;
+  white-space: nowrap;
+  will-change: transform;
+  font-family: 'Press Start 2P', monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-shadow:
+    0 0 20px currentColor,
+    0 0 40px currentColor,
+    0 0 80px currentColor;
+  transition: color 0.5s, text-shadow 0.5s;
+}
+
+#marquee-text {
+  display: inline-block;
+  padding: 0 60px;
+}
+
+#fx-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* Scanline overlay for retro CRT feel */
+#display::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.08) 2px,
+    rgba(0, 0, 0, 0.08) 4px
+  );
+  pointer-events: none;
+  z-index: 20;
+}
+
+.state-loading #marquee-track { color: #555; }
+.state-pass #marquee-track    { color: #00ff41; }
+.state-fail #marquee-track    { color: #ff1744; }
+.state-error #marquee-track   { color: #ffab00; }
